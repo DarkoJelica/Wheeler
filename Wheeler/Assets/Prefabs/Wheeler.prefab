@@ -141,6 +141,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fe1f1bd98bc9564ead34f44500ff735, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Camera: {fileID: 0}
   Speed: 1
+  Range: 1
   CurrentTarget: {x: 0, y: 0, z: 0}
+  ItemCombinations:
+  - InputA: {fileID: 2018002862, guid: e0dabb11ec51a03418a3d4f867ad260e, type: 3}
+    InputB: {fileID: 2018002862, guid: e0dabb11ec51a03418a3d4f867ad260e, type: 3}
+    Output: {fileID: 2018002862, guid: e0dabb11ec51a03418a3d4f867ad260e, type: 3}

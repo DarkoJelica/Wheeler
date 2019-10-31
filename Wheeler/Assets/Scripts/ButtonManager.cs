@@ -7,9 +7,9 @@ using UnityEngine.UI;
 public class ButtonManager : MonoBehaviour, IPointerDownHandler
 {
    public Sprite DefaultSprite;
-   public Slots Slot;
+   public Hands Slot;
 
-   public delegate void OnDown(Slots slot);
+   public delegate void OnDown(Hands slot);
    public event OnDown DownEvent;
 
    Image buttonImage;
@@ -35,7 +35,8 @@ public class ButtonManager : MonoBehaviour, IPointerDownHandler
 
    public void OnPointerDown(PointerEventData eventData)
    {
-      DownEvent.Invoke(Slot);
+      if(DownEvent != null)
+         DownEvent.Invoke(Slot);
    }
 
 }

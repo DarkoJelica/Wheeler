@@ -2,86 +2,162 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Slots { HAND1, HAND2, NONE }
+public enum Hands { LEFT, RIGHT, NONE }
+
+[System.Serializable]
+public struct ItemCombination
+{
+   [SerializeField]
+   public Item InputA;
+   [SerializeField]
+   public Item InputB;
+   [SerializeField]
+   public Item Output;
+}
 
 public class PlayerController : MonoBehaviour
 {
    public float Speed;
+   public float Range;
    public Vector3 CurrentTarget;
-   public GameObject HandPosition;
-   public GameObject Hand1 { get; private set; }
-   public GameObject Hand2 { get; private set; }
+   public Item Hand1 { get; private set; }
+   public Item Hand2 { get; private set; }
+   public ItemCombination[] ItemCombinations;
+
+   public delegate void OnPickup(Hands hand);
+   public event OnPickup PickupEvent;
+   public delegate void OnDrop(Hands hand);
+   public event OnDrop DropEvent;
 
    SpriteRenderer spriteRenderer;
+   Item itemToPickup;
+   Hands pickupSlot = Hands.NONE;
+   Hands itemToDrop = Hands.NONE;
+   Vector3 dropPosition;
+   int activeCombination = -1;
 
-   public Sprite GetSlotSprite(Slots slot)
+   public Sprite GetSlotSprite(Hands slot)
    {
-      GameObject item = null;
+      Item item = null;
       switch(slot)
       {
-         case Slots.HAND1:
+         case Hands.LEFT:
             item = Hand1;
             break;
-         case Slots.HAND2:
+         case Hands.RIGHT:
             item = Hand2;
             break;
       }
       if(item == null)
          return null;
-      return item.GetComponent<Sprite>();
+      return item.Sprite;
    }
 
-   public bool AddToSlot(GameObject item, Slots slot)
+   public void AddToSlot(Item item, Hands slot)
+   {
+      if(item == null)
+         return;
+      itemToPickup = item;
+      pickupSlot = slot;
+   }
+
+   public void RemoveFromSlot(Hands slot, Vector2 position)
+   {
+      Item item = null;
+      if(slot == Hands.LEFT)
+         item = Hand1;
+      else if(slot == Hands.RIGHT)
+         item = Hand2;
+      if(item == null)
+         return;
+      itemToDrop = slot;
+      dropPosition = new Vector3(position.x, position.y, item.transform.position.z);
+   }
+
+   public Sprite GetCombinationSprite()
+   {
+      if(activeCombination < 0)
+         return null;
+      return ItemCombinations[activeCombination].Output.Sprite;
+   }
+
+   public bool CombineItems()
+   {
+      if(activeCombination < 0)
+         return false;
+      if(Hand1 == null || Hand2 == null)
+         return false;
+      Destroy(Hand1);
+      Hand1 = null;
+      Destroy(Hand2);
+      Hand2 = null;
+      Item output = Instantiate(ItemCombinations[activeCombination].Output);
+      AddToSlot(output, Hands.LEFT);
+      activeCombination = -1;
+      return true;
+   }
+
+   bool PickupItem(Item item, Hands hand)
    {
       if(item == null)
          return false;
-      switch(slot)
+      if((item.transform.position - transform.position).magnitude > Range)
+         return false;
+      switch(hand)
       {
-         case Slots.HAND1:
+         case Hands.LEFT:
             if(Hand1 != null)
                return false;
             Hand1 = item;
             break;
-         case Slots.HAND2:
+         case Hands.RIGHT:
             if(Hand2 != null)
                return false;
             Hand2 = item;
             break;
       }
-      item.SetActive(false);
+      item.gameObject.SetActive(false);
       item.transform.parent = transform;
-      item.transform.localPosition = Vector3.zero;
+      item.transform.localPosition = new Vector3(0, 0, item.transform.localPosition.z);
+      if(Hand1 != null && Hand2 != null)
+      {
+         for(int i = 0; i < ItemCombinations.Length; ++i)
+         {
+            ItemCombination combination = ItemCombinations[i];
+            if(combination.InputA == null || combination.InputB == null || combination.Output == null)
+               continue;
+            if((combination.InputA.name == Hand1.name && combination.InputB.name == Hand2.name) || (combination.InputA.name == Hand2.name && combination.InputB.name == Hand1.name))
+            {
+               activeCombination = i;
+               break;
+            }
+         }
+      }
+      PickupEvent.Invoke(hand);
       return true;
    }
 
-   public GameObject RemoveFromSlot(Slots slot)
+   bool DropItem(Hands hand)
    {
-      GameObject item = null;
-      switch(slot)
-      {
-         case Slots.HAND1:
-            item = Hand1;
-            Hand1 = null;
-            break;
-         case Slots.HAND2:
-            item = Hand2;
-            Hand2 = null;
-            break;
-      }
-      if(item != null)
-      {
-         item.transform.parent = null;
-         item.SetActive(true);
-      }
-      return item;
-   }
-
-   public void SwapSlots(Slots a, Slots b)
-   {
-      GameObject itemA = RemoveFromSlot(a);
-      GameObject itemB = RemoveFromSlot(b);
-      AddToSlot(itemA, b);
-      AddToSlot(itemB, a);
+      Item item = null;
+      if(hand == Hands.LEFT)
+         item = Hand1;
+      else if (hand == Hands.RIGHT)
+         item = Hand2;
+      if(item == null)
+         return false;
+      if((dropPosition - transform.position).magnitude > Range)
+         return false;
+      item.transform.parent = null;
+      item.gameObject.SetActive(true);
+      item.transform.position = dropPosition;
+      if(hand == Hands.LEFT)
+         Hand1 = null;
+      else if(hand == Hands.RIGHT)
+         Hand2 = null;
+      DropEvent.Invoke(hand);
+      activeCombination = -1;
+      return true;
    }
 
    void Start()
@@ -91,7 +167,26 @@ public class PlayerController : MonoBehaviour
 
    void Update()
    {
-      
+      if(itemToPickup != null)
+      {
+         CurrentTarget = itemToPickup.transform.position;
+         if(PickupItem(itemToPickup, pickupSlot))
+         {
+            itemToPickup = null;
+            pickupSlot = Hands.NONE;
+            CurrentTarget = transform.position;
+         }
+      }
+      else if(itemToDrop != Hands.NONE)
+      {
+         CurrentTarget = dropPosition;
+         if(DropItem(itemToDrop))
+         {
+            itemToDrop = Hands.NONE;
+            dropPosition = Vector2.zero;
+            CurrentTarget = transform.position;
+         }
+      }
    }
 
    void FixedUpdate()

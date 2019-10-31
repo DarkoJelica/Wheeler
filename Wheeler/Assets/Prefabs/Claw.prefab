@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8137648565997183515}
   - component: {fileID: 7777223549178724253}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: BottomClaw
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 5103272101718252466}
   - component: {fileID: 8188683188685089342}
   - component: {fileID: 3060537624784971383}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: TopClaw
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -160,7 +160,7 @@ GameObject:
   - component: {fileID: 7101898486095777851}
   - component: {fileID: 364641069939637479}
   - component: {fileID: 2218286971137336725}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -262,7 +262,7 @@ GameObject:
   - component: {fileID: 1993591478876733695}
   - component: {fileID: 2006976581706593600}
   - component: {fileID: 2271329578235113280}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: BottomClaw
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -363,7 +363,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1909034808244561545}
   - component: {fileID: 5437269549767448336}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: TopClaw
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -410,7 +410,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4062968400331262168}
   - component: {fileID: 6056560372275459313}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -446,7 +446,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Length: 0.06260341
+  m_Length: 0.0626034
   m_ChildTransform: {fileID: 1909034808244561545}
   m_AttachedIK: {fileID: 0}
 --- !u!1 &8558340989034197057
@@ -458,7 +458,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 28633322465088290}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: SpriteMeshes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -491,7 +491,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5789593851251453144}
-  m_Layer: 0
+  - component: {fileID: 689744843}
+  m_Layer: 5
   m_Name: Claw
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -507,10 +508,29 @@ Transform:
   m_GameObject: {fileID: 9028951933598761538}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.029, y: 0.1687, z: -0.028507648}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 7, y: 7, z: 1}
   m_Children:
   - {fileID: 28633322465088290}
   - {fileID: 4062968400331262168}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &689744843
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9028951933598761538}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 408bdcafe73a59545a4353cf2b42843f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

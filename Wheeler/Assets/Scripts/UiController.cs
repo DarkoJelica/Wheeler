@@ -12,13 +12,14 @@ public class UiController : MonoBehaviour
    public Camera Camera;
    public ButtonManager Hand1;
    public ButtonManager Hand2;
+   public ButtonManager Combine;
    
    Image spriteHolderImage;
    Image hand1Image;
    Image hand2Image;
    Animator clawAnimator;
-   GameObject heldObject;
-   Slots activeSlot;
+   Item heldObject;
+   Hands activeSlot;
    
    void Start()
    {
@@ -29,6 +30,8 @@ public class UiController : MonoBehaviour
       ClickPanel.ClickEvent += OnPanelClick;
       Hand1.DownEvent += OnButtonDown;
       Hand2.DownEvent += OnButtonDown;
+      PlayerController.PickupEvent += OnPickup;
+      PlayerController.DropEvent += OnDrop;
    }
 
    void Update()
@@ -43,34 +46,19 @@ public class UiController : MonoBehaviour
       {
          if(heldObject != null)
          {
-            GameObject item = PlayerController.RemoveFromSlot(activeSlot);
-            if(item != null)
-            {
-               Vector3 dropPosition = Camera.ScreenToWorldPoint(mousePos);
-               dropPosition.z = item.transform.position.z;
-               item.transform.position = dropPosition;
-            }
+            Vector3 dropPosition = Camera.ScreenToWorldPoint(mousePos);
+            PlayerController.RemoveFromSlot(activeSlot, dropPosition);
             SetCursorSprite(null);
-            if(activeSlot == Slots.HAND1)
-               Hand1.SetSprite(null);
-            if(activeSlot == Slots.HAND2)
-               Hand2.SetSprite(null);
          }
-         else if(Claw.activeInHierarchy && activeSlot != Slots.NONE)
+         else if(Claw.activeInHierarchy && activeSlot != Hands.NONE)
          {
             RaycastHit2D raycast = Physics2D.Raycast(Camera.ScreenToWorldPoint(mousePos), Vector2.zero, 0f);
-            if(raycast.collider != null)
-            {
-               PlayerController.AddToSlot(raycast.collider.gameObject, activeSlot);
-               if(activeSlot == Slots.HAND1)
-                  Hand1.SetSprite(PlayerController.Hand1.GetComponent<SpriteRenderer>().sprite);
-               else
-                  Hand2.SetSprite(PlayerController.Hand2.GetComponent<SpriteRenderer>().sprite);
-            }
+            if(raycast.collider != null && raycast.collider.gameObject.CompareTag("Item"))
+               PlayerController.AddToSlot(raycast.collider.gameObject.GetComponent<Item>(), activeSlot);
          }
          SetCursorSprite(null);
          Claw.SetActive(false);
-         activeSlot = Slots.NONE;
+         activeSlot = Hands.NONE;
       }
       if(Claw.activeInHierarchy)
       {
@@ -85,7 +73,17 @@ public class UiController : MonoBehaviour
       }
    }
 
-   public void SetCursorSprite(Sprite sprite)
+   public void OnCombine()
+   {
+      if(PlayerController.CombineItems())
+      {
+         Hand1.SetSprite(PlayerController.GetSlotSprite(Hands.LEFT));
+         Hand2.SetSprite(PlayerController.GetSlotSprite(Hands.RIGHT));
+         Combine.SetSprite(PlayerController.GetCombinationSprite());
+      }
+   }
+
+   void SetCursorSprite(Sprite sprite)
    {
       spriteHolderImage.sprite = sprite;
       SpriteHolder.SetActive(sprite != null);
@@ -97,22 +95,40 @@ public class UiController : MonoBehaviour
       PlayerController.CurrentTarget = Camera.ScreenToWorldPoint(Input.mousePosition);
    }
 
-   void OnButtonDown(Slots slot)
+   void OnButtonDown(Hands slot)
    {
-      if(slot == Slots.HAND1)
+      if(slot == Hands.LEFT)
       {
          heldObject = PlayerController.Hand1;
-         Hand1.SetSprite(heldObject != null ? heldObject.GetComponent<SpriteRenderer>().sprite : null);
+         Hand1.SetSprite(PlayerController.GetSlotSprite(Hands.LEFT));
          SetCursorSprite(heldObject != null ? Hand1.GetSprite() : null);
-         activeSlot = Slots.HAND1;
+         activeSlot = Hands.LEFT;
       }
-      else
+      else if(slot == Hands.RIGHT)
       {
          heldObject = PlayerController.Hand2;
-         Hand2.SetSprite(heldObject != null ? heldObject.GetComponent<SpriteRenderer>().sprite : null);
+         Hand2.SetSprite(PlayerController.GetSlotSprite(Hands.RIGHT));
          SetCursorSprite(heldObject != null ? Hand2.GetSprite() : null);
-         activeSlot = Slots.HAND2;
+         activeSlot = Hands.RIGHT;
       }
+   }
+
+   void OnPickup(Hands hand)
+   {
+      if(hand == Hands.LEFT)
+         Hand1.SetSprite(PlayerController.GetSlotSprite(Hands.LEFT));
+      else if(hand == Hands.RIGHT)
+         Hand2.SetSprite(PlayerController.GetSlotSprite(Hands.RIGHT));
+      if(PlayerController.Hand1 != null && PlayerController.Hand2 != null)
+         Combine.SetSprite(PlayerController.GetCombinationSprite());
+   }
+
+   void OnDrop(Hands hand)
+   {
+      if(hand == Hands.LEFT)
+         Hand1.SetSprite(null);
+      else if(hand == Hands.RIGHT)
+         Hand2.SetSprite(null);
    }
 
 }

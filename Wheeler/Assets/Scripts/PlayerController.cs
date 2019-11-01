@@ -92,7 +92,9 @@ public class PlayerController : MonoBehaviour
       Destroy(Hand2);
       Hand2 = null;
       Item output = Instantiate(ItemCombinations[activeCombination].Output);
-      AddToSlot(output, Hands.LEFT);
+      output.name = output.name.Substring(0, output.name.Length - 7);
+      output.transform.position = transform.position;
+      PickupItem(output, Hands.LEFT);
       activeCombination = -1;
       return true;
    }
@@ -151,6 +153,8 @@ public class PlayerController : MonoBehaviour
       item.transform.parent = null;
       item.gameObject.SetActive(true);
       item.transform.position = dropPosition;
+      if(dropPosition.x < transform.position.x)
+         item.transform.rotation = Quaternion.Euler(0, 180, 0);
       if(hand == Hands.LEFT)
          Hand1 = null;
       else if(hand == Hands.RIGHT)

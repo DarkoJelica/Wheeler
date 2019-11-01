@@ -36,6 +36,7 @@ public class UiController : MonoBehaviour
 
    void Update()
    {
+      Camera.transform.position = new Vector3(PlayerController.transform.position.x, PlayerController.transform.position.y, Camera.transform.position.z);
       ClickPanel.gameObject.SetActive(spriteHolderImage.sprite == null);
       Vector3 mousePos = Input.mousePosition;
       SpriteHolder.transform.position = new Vector3(mousePos.x, mousePos.y, SpriteHolder.transform.position.z);
@@ -53,7 +54,7 @@ public class UiController : MonoBehaviour
          else if(Claw.activeInHierarchy && activeSlot != Hands.NONE)
          {
             RaycastHit2D raycast = Physics2D.Raycast(Camera.ScreenToWorldPoint(mousePos), Vector2.zero, 0f);
-            if(raycast.collider != null && raycast.collider.gameObject.CompareTag("Item"))
+            if(raycast.collider != null && raycast.collider.gameObject.CompareTag("Component"))
                PlayerController.AddToSlot(raycast.collider.gameObject.GetComponent<Item>(), activeSlot);
          }
          SetCursorSprite(null);
@@ -63,7 +64,7 @@ public class UiController : MonoBehaviour
       if(Claw.activeInHierarchy)
       {
          RaycastHit2D raycast = Physics2D.Raycast(Camera.ScreenToWorldPoint(mousePos), Vector2.zero, 0f);
-         if(raycast.collider != null)
+         if(raycast.collider != null && raycast.collider.gameObject.CompareTag("Component"))
          {
             if(!clawAnimator.GetBool("Open"))
                clawAnimator.SetTrigger("Open");

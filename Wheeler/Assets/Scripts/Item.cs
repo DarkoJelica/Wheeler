@@ -6,11 +6,15 @@ public class Item : MonoBehaviour
 {
    public Sprite Sprite;
 
-   void OnCollisionEnter(Collision collision)
+   void OnCollisionEnter2D(Collision2D collision)
    {
       if(CompareTag("Component"))
          return;
       if(collision.collider.gameObject.CompareTag("Floor"))
-         GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
+      {
+         Rigidbody2D rigidbody = GetComponent<Rigidbody2D>();
+         rigidbody.bodyType = RigidbodyType2D.Kinematic;
+         rigidbody.velocity = Vector2.zero;
+      }
    }
 }

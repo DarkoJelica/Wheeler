@@ -408,8 +408,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 95, y: 268.5}
-  m_SizeDelta: {x: 190, y: 537}
+  m_AnchoredPosition: {x: 95, y: 274}
+  m_SizeDelta: {x: 190, y: 549}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2676422986262492880
 CanvasRenderer:
@@ -707,6 +707,8 @@ MonoBehaviour:
   ClickPanel: {fileID: 959577133}
   PlayerController: {fileID: 0}
   Camera: {fileID: 0}
+  Bounds: {fileID: 0}
+  ButtonsBar: {fileID: 2676422986262492886}
   Hand1: {fileID: 1911031700}
   Hand2: {fileID: 5563895641827469714}
   Combine: {fileID: 6828450738183283558}

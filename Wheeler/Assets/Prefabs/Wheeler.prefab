@@ -141,7 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fe1f1bd98bc9564ead34f44500ff735, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 3
+  Speed: 4
   Range: 1
   CurrentTarget: {x: 0, y: 0, z: 0}
   ItemCombinations:
@@ -153,4 +153,15 @@ MonoBehaviour:
     InputB: {fileID: 1992568443374317467, guid: 701c0d059b060c04589a9412dbd04751,
       type: 3}
     Output: {fileID: 8187746608974931556, guid: a6842d7135ebc9e45b534b27c4bd81ce,
+      type: 3}
+  - InputA: {fileID: 5935530689688909663, guid: 30a56245b1aed8446bc4d016adee6b64,
+      type: 3}
+    InputB: {fileID: 2018002862, guid: e0dabb11ec51a03418a3d4f867ad260e, type: 3}
+    Output: {fileID: 6290590020981312554, guid: b36239e356fb7a94c831490cdf1b506a,
+      type: 3}
+  - InputA: {fileID: 1992568443374317467, guid: 701c0d059b060c04589a9412dbd04751,
+      type: 3}
+    InputB: {fileID: 5935530689688909663, guid: 30a56245b1aed8446bc4d016adee6b64,
+      type: 3}
+    Output: {fileID: 8898510485139258396, guid: 6dec48193cd7e684592bcbb7c5feb51a,
       type: 3}

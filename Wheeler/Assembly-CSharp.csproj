@@ -86,6 +86,8 @@
     <Compile Include="Assets\Anima2D\Scripts\SpriteMesh.cs" />
     <Compile Include="Assets\Anima2D\Scripts\SpriteMeshAnimation.cs" />
     <Compile Include="Assets\Anima2D\Scripts\SpriteMeshInstance.cs" />
+    <Compile Include="Assets\Conveyor.cs" />
+    <Compile Include="Assets\Scripts\BoundsManager.cs" />
     <Compile Include="Assets\Scripts\ButtonManager.cs" />
     <Compile Include="Assets\Scripts\ClickPanelController.cs" />
     <Compile Include="Assets\Scripts\Item.cs" />

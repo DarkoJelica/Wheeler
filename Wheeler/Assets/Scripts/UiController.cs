@@ -10,6 +10,8 @@ public class UiController : MonoBehaviour
    public ClickPanelController ClickPanel;
    public PlayerController PlayerController;
    public Camera Camera;
+   public BoundsManager Bounds;
+   public RectTransform ButtonsBar;
    public ButtonManager Hand1;
    public ButtonManager Hand2;
    public ButtonManager Combine;
@@ -20,6 +22,7 @@ public class UiController : MonoBehaviour
    Animator clawAnimator;
    Item heldObject;
    Hands activeSlot;
+   float bkgBarOffset;
    
    void Start()
    {
@@ -32,11 +35,12 @@ public class UiController : MonoBehaviour
       Hand2.DownEvent += OnButtonDown;
       PlayerController.PickupEvent += OnPickup;
       PlayerController.DropEvent += OnDrop;
+      bkgBarOffset = 2 * Camera.orthographicSize * Camera.aspect * ButtonsBar.rect.width / GetComponent<Canvas>().pixelRect.width;
    }
 
    void Update()
    {
-      Camera.transform.position = new Vector3(PlayerController.transform.position.x, PlayerController.transform.position.y, Camera.transform.position.z);
+      SetCameraPosition();
       ClickPanel.gameObject.SetActive(spriteHolderImage.sprite == null);
       Vector3 mousePos = Input.mousePosition;
       SpriteHolder.transform.position = new Vector3(mousePos.x, mousePos.y, SpriteHolder.transform.position.z);
@@ -82,6 +86,14 @@ public class UiController : MonoBehaviour
          Hand2.SetSprite(PlayerController.GetSlotSprite(Hands.RIGHT));
          Combine.SetSprite(PlayerController.GetCombinationSprite());
       }
+   }
+
+   void SetCameraPosition()
+   {
+      Vector3 position = new Vector3(PlayerController.transform.position.x, PlayerController.transform.position.y, Camera.transform.position.z);
+      position.x = Mathf.Clamp(position.x, Bounds.transform.position.x + Camera.orthographicSize * Camera.aspect - bkgBarOffset, Bounds.transform.position.x + Bounds.Size.x - Camera.orthographicSize * Camera.aspect);
+      position.y = Mathf.Clamp(position.y, Bounds.transform.position.y + Camera.orthographicSize, Bounds.transform.position.y + Bounds.Size.y - Camera.orthographicSize);
+      Camera.transform.position = position;
    }
 
    void SetCursorSprite(Sprite sprite)

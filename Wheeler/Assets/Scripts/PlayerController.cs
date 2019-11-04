@@ -167,6 +167,7 @@ public class PlayerController : MonoBehaviour
    void Start()
    {
       spriteRenderer = GetComponent<SpriteRenderer>();
+      CurrentTarget = transform.position;
    }
 
    void Update()
@@ -195,6 +196,8 @@ public class PlayerController : MonoBehaviour
 
    void FixedUpdate()
    {
+      if(Mathf.Abs(GetComponent<Rigidbody2D>().velocity.y) > Mathf.Epsilon)
+         return;
       Vector3 move = CurrentTarget - gameObject.transform.position;
       move.y = 0;
       move.z = 0;

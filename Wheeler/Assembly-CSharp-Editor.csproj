@@ -198,6 +198,7 @@
     <Compile Include="Assets\Anima2D\Scripts\Editor\VertexManipulator\VertexManipulator.cs" />
     <Compile Include="Assets\Anima2D\Scripts\Editor\WeightEditor.cs" />
     <Compile Include="Assets\Anima2D\Scripts\Editor\WindowEditorTool.cs" />
+    <Compile Include="Assets\Scripts\Level\Editor\LevelEditor.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Users/PC/Documents/Dev/Wheeler/Wheeler/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>

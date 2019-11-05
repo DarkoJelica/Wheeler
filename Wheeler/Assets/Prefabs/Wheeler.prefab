@@ -154,10 +154,11 @@ MonoBehaviour:
       type: 3}
     Output: {fileID: 8187746608974931556, guid: a6842d7135ebc9e45b534b27c4bd81ce,
       type: 3}
-  - InputA: {fileID: 5935530689688909663, guid: 30a56245b1aed8446bc4d016adee6b64,
+  - InputA: {fileID: 1992568443374317467, guid: 701c0d059b060c04589a9412dbd04751,
       type: 3}
-    InputB: {fileID: 2018002862, guid: e0dabb11ec51a03418a3d4f867ad260e, type: 3}
-    Output: {fileID: 6290590020981312554, guid: b36239e356fb7a94c831490cdf1b506a,
+    InputB: {fileID: 7230877214749767866, guid: e0dabb11ec51a03418a3d4f867ad260e,
+      type: 3}
+    Output: {fileID: 1138721226567331091, guid: 0e1c77c1e0847164c85d602d00b7815e,
       type: 3}
   - InputA: {fileID: 1992568443374317467, guid: 701c0d059b060c04589a9412dbd04751,
       type: 3}

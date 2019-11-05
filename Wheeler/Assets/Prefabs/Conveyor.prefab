@@ -216,7 +216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97a7443fd72bcbb44a95a3b41ef6111a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Velocity: {x: 5, y: 2}
+  Velocity: {x: 15, y: 0}
 --- !u!68 &1138721226567331089
 EdgeCollider2D:
   m_ObjectHideFlags: 0

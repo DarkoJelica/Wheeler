@@ -14,7 +14,9 @@ public class LevelLine
       }
       set
       {
-         lineAnchor = value;
+         if(segmentSize.SqrMagnitude() < Mathf.Epsilon)
+            SetSegmentSize();
+         lineAnchor = value - (Type == LevelLineTypes.FLOOR ? new Vector2(0, segmentSize.y / 2) : new Vector2(segmentSize.x / 2, 0));
          MoveSegments();
       }
    }
@@ -46,10 +48,7 @@ public class LevelLine
       segments = new List<GameObject>();
       Type = type;
       Anchor = anchor;
-      if(segmentObject == null)
-         segmentSize = Vector2.zero;
-      else
-         segmentSize = segmentObject.GetComponent<BoxCollider2D>().size;
+      SetSegmentSize();
       Size = size;
    }
 
@@ -61,6 +60,8 @@ public class LevelLine
 
    void Resize()
    {
+      if(segmentSize.SqrMagnitude() < Mathf.Epsilon)
+         SetSegmentSize();
       float segmentLength = Type == LevelLineTypes.FLOOR ? segmentSize.x : segmentSize.y;
       int segmentCount = lineSize > Mathf.Epsilon ? Mathf.CeilToInt(lineSize / segmentLength) : 0;
       while(segments.Count < segmentCount)
@@ -81,6 +82,8 @@ public class LevelLine
    {
       if(segments.Count == 0)
          return;
+      if(segmentSize.SqrMagnitude() < Mathf.Epsilon)
+         SetSegmentSize();
       Vector2 offset = Type == LevelLineTypes.FLOOR ? Vector2.right * segments.Count * segmentSize.x : Vector2.up * segments.Count * segmentSize.y;
       for(int i = 0; i < segments.Count - 1; ++i)
       {
@@ -92,6 +95,17 @@ public class LevelLine
       Vector2 lastOffset = Type == LevelLineTypes.FLOOR ? Vector2.right * (lineSize - segmentSize.x) : Vector2.up * (lineSize - segmentSize.y);
       Vector2 lastPos = Anchor + segmentSize / 2 + lastOffset;
       segments[segments.Count - 1].transform.position = new Vector3(lastPos.x, lastPos.y, segmentObject.transform.position.z);
+   }
+
+   void SetSegmentSize()
+   {
+      if(segmentObject == null)
+         segmentSize = Vector2.zero;
+      else
+      {
+         segmentSize = segmentObject.GetComponent<BoxCollider2D>().size;
+         segmentSize = segmentObject.transform.rotation * segmentSize;
+      }
    }
 
 }

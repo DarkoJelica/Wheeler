@@ -707,7 +707,7 @@ MonoBehaviour:
   ClickPanel: {fileID: 959577133}
   PlayerController: {fileID: 0}
   Camera: {fileID: 0}
-  Bounds: {fileID: 0}
+  Level: {fileID: 0}
   ButtonsBar: {fileID: 2676422986262492886}
   Hand1: {fileID: 1911031700}
   Hand2: {fileID: 5563895641827469714}

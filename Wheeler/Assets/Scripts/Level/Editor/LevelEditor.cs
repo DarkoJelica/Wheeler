@@ -17,11 +17,23 @@ public class LevelEditor : Editor
 
    public override void OnInspectorGUI()
    {
+      if(Application.isPlaying)
+         return;
+      if(GUILayout.Button("Clear"))
+      {
+         level.Clear();
+         return;
+      }
+      level.Floor = (GameObject)EditorGUILayout.ObjectField("Floor", level.Floor, typeof(GameObject), true);
+      level.Wall = (GameObject)EditorGUILayout.ObjectField("Wall", level.Wall, typeof(GameObject), true);
       Vector2 size = level.Size;
       EditorGUI.BeginChangeCheck();
       size = EditorGUILayout.Vector2Field("Level Size", size);
       if(EditorGUI.EndChangeCheck())
+      {
          level.Size = size;
+         EditorUtility.SetDirty(level);
+      }
       lineType = (LevelLineTypes)EditorGUILayout.EnumPopup(lineType);
       if((lineType == LevelLineTypes.FLOOR && level.Floors.Count > 0) || (lineType == LevelLineTypes.WALL && level.Walls.Count > 0))
          selectedLine = EditorGUILayout.IntSlider(selectedLine, 0, lineType == LevelLineTypes.FLOOR ? level.Floors.Count - 1 : level.Walls.Count - 1);
@@ -29,11 +41,14 @@ public class LevelEditor : Editor
          selectedLine = -1;
       if(GUILayout.Button("Add Line"))
          level.AddLine(Vector2.zero, lineType);
-      if(GUILayout.Button("Remove Line"))
-         level.RemoveLine(lineType, selectedLine);
       LevelLine line = GetActiveLine();
       if(line == null)
          return;
+      if(GUILayout.Button("Remove Line"))
+      {
+         level.RemoveLine(lineType, selectedLine);
+         return;
+      }
       Vector2 anchor = line.Anchor;
       EditorGUI.BeginChangeCheck();
       anchor = EditorGUILayout.Vector2Field("Line Anchor", anchor);
@@ -48,6 +63,8 @@ public class LevelEditor : Editor
 
    void OnSceneGUI()
    {
+      if(!Application.isEditor)
+         return;
       LevelLine line = GetActiveLine();
       if(line == null)
          return;

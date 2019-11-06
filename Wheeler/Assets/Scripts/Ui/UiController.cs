@@ -10,7 +10,7 @@ public class UiController : MonoBehaviour
    public ClickPanelController ClickPanel;
    public PlayerController PlayerController;
    public Camera Camera;
-   public BoundsManager Bounds;
+   public Level Level;
    public RectTransform ButtonsBar;
    public ButtonManager Hand1;
    public ButtonManager Hand2;
@@ -91,8 +91,8 @@ public class UiController : MonoBehaviour
    void SetCameraPosition()
    {
       Vector3 position = new Vector3(PlayerController.transform.position.x, PlayerController.transform.position.y, Camera.transform.position.z);
-      position.x = Mathf.Clamp(position.x, Bounds.transform.position.x + Camera.orthographicSize * Camera.aspect - bkgBarOffset, Bounds.transform.position.x + Bounds.Size.x - Camera.orthographicSize * Camera.aspect);
-      position.y = Mathf.Clamp(position.y, Bounds.transform.position.y + Camera.orthographicSize, Bounds.transform.position.y + Bounds.Size.y - Camera.orthographicSize);
+      position.x = Mathf.Clamp(position.x, Level.transform.position.x + Camera.orthographicSize * Camera.aspect - bkgBarOffset, Level.transform.position.x + Level.Size.x - Camera.orthographicSize * Camera.aspect);
+      position.y = Mathf.Clamp(position.y, Level.transform.position.y + Camera.orthographicSize, Level.transform.position.y + Level.Size.y - Camera.orthographicSize);
       Camera.transform.position = position;
    }
 

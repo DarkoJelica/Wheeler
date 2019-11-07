@@ -197,11 +197,8 @@ public class PlayerController : MonoBehaviour
    void FixedUpdate()
    {
       Rigidbody2D body = GetComponent<Rigidbody2D>();
-      if(Mathf.Abs(body.velocity.y) > Mathf.Epsilon)
-         return;
       Vector2 move = Vector2.ClampMagnitude(CurrentTarget - gameObject.transform.position, Speed);
       move.y = 0;
-      //move.z = 0;
       gameObject.transform.position += Vector3.ClampMagnitude(move, Time.deltaTime * Speed);
       if(Mathf.Abs(move.x) > Mathf.Epsilon)
          spriteRenderer.flipX = move.x < 0;

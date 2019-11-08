@@ -120,18 +120,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!114 &8500317 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7707032926043049879, guid: c09312f921189d147b88c99312e6b515,
-    type: 3}
-  m_PrefabInstance: {fileID: 2107909399300548747}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb665c2f7bef450488386fad7cab28fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &60967215
 GameObject:
   m_ObjectHideFlags: 0
@@ -591,18 +579,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cd4f78a9993b14d4eb753ced33a9462e, type: 3}
---- !u!114 &325853575 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 540581098, guid: b59cc07357fed384d8ecf9f4063b466e,
-    type: 3}
-  m_PrefabInstance: {fileID: 5737034061900184279}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fe1f1bd98bc9564ead34f44500ff735, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &367198899
 GameObject:
   m_ObjectHideFlags: 0
@@ -5516,23 +5492,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2676422987202443298, guid: 162a5343983a1a4449fdee3f4e97d543,
-        type: 3}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 519420031}
-    - target: {fileID: 2123363353, guid: 162a5343983a1a4449fdee3f4e97d543, type: 3}
-      propertyPath: PlayerController
-      value: 
-      objectReference: {fileID: 325853575}
-    - target: {fileID: 2123363353, guid: 162a5343983a1a4449fdee3f4e97d543, type: 3}
-      propertyPath: Camera
-      value: 
-      objectReference: {fileID: 519420031}
-    - target: {fileID: 2123363353, guid: 162a5343983a1a4449fdee3f4e97d543, type: 3}
-      propertyPath: Level
-      value: 
-      objectReference: {fileID: 8500317}
     - target: {fileID: 8947258477949782103, guid: 162a5343983a1a4449fdee3f4e97d543,
         type: 3}
       propertyPath: m_Mesh

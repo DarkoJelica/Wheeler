@@ -115,7 +115,7 @@ public class UiController : MonoBehaviour
    void SetCameraPosition()
    {
       Vector3 position = level.transform.position + (Vector3)level.Size / 2;
-      if(level.Size.x > mainCamera.orthographicSize * mainCamera.aspect)
+      if(level.Size.x > 2 * mainCamera.orthographicSize * mainCamera.aspect)
          position.x = Mathf.Clamp(playerController.transform.position.x, level.transform.position.x + mainCamera.orthographicSize * mainCamera.aspect - bkgBarOffset, level.transform.position.x + level.Size.x - mainCamera.orthographicSize * mainCamera.aspect);
       if(level.Size.y > mainCamera.orthographicSize)
          position.y = Mathf.Clamp(playerController.transform.position.y, level.transform.position.y + mainCamera.orthographicSize, level.transform.position.y + level.Size.y - mainCamera.orthographicSize);
